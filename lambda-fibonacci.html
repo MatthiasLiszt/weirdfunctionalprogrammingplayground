@@ -1,0 +1,79 @@
+<html>
+<body>
+<script>
+
+var Y = function(le) {
+	    return function(f) {
+	        return f(f);
+	    }(function(f) {
+	        return le(
+	            function(x) { return (f(f))(x); }
+	        );
+	    });
+	};
+
+var makeFib = function(givenFib) {
+
+	    return function(n) {
+
+	        if( n<=2 ) {return 1;}
+
+	        else {return givenFib(n-1) + givenFib(n-2);}
+
+	    }
+
+	};
+
+
+
+var fibonacci = Y(makeFib);
+var o=function(x){return 11;};
+var dotdot=[];
+var opointDirty=function(x){
+             return function(n){
+                      dotdot.push('.');  //impure
+                      if(n){return x(n-1);}
+                      return dotdot; 
+                    }
+            };
+var opointPure=function(x){
+                 return function(n){
+                      //console.log('x n='+n.n+' '+n.d);
+                      --n.n;
+                      ++n.d;
+                      if(n.n){return x(n);}
+                      var r=new Array(n.d);
+                      r.fill('.');                      
+                      return r;
+                    }
+            };
+
+
+console.log("hello!");
+console.log("fibonacci value "+fibonacci(12));
+
+var d=document.createElement("div");
+
+d.innerHTML="<p>fibonacci number </p>"+fibonacci(12);
+document.body.appendChild(d);
+
+console.log("pure Y(o) "+Y(o));
+var pDirty=Y(opointDirty);
+
+//pDirty(7);
+//console.log(dotdot.join(''));
+
+Y(opointDirty)(7);
+console.log("Y(opointDirty)(7) makes dirty dots "+dotdot.join(''));
+
+var u,w={n: 9 , d: 0 };
+
+u=Y(opointPure)(w);
+console.log("w before {n: "+w.n+", d: "+w.d+"}");
+console.log("u=Y(opointPure)(w) remains pure "+u.join(''));
+console.log("w after {n: "+w.n+", d: "+w.d+"}");
+
+
+</script>
+</body>
+</html>
