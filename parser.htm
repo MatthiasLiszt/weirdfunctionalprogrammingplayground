@@ -1,0 +1,56 @@
+<html>
+<title>lisp like parser</title>
+<body>
+
+the purpose is to transform a lisp program string to the lisp cons structure 
+and perhaps to execute it <br></br>
+
+<script>
+
+var pcons={h: "", t: ""};
+
+var prog="(define double (lambda (x) (* 2 x)))";
+
+document.write("sample: "+prog+"<br></br>");
+
+/* a ... ancestor , x ... value to add */
+function cons(a,x){
+ var cons={h: "", t: ""};
+ var n;
+
+ if(a.h==""){a.h=x;}
+ else{a.t=cons;n=a.t;n.h=x;}
+}
+
+
+function car(x){
+ if(x.h!== undefined){return x.h;}
+ else{return "error!";}
+}
+
+function cdr(x){
+ if(x.t!== undefined){return x.t;}
+ else{return "error!";}
+}
+
+
+cons(pcons,"define");
+cons(pcons,"double");
+
+document.write(JSON.stringify(pcons)+"<br></br>");
+
+document.write(car(pcons)+"<br></br>");
+document.write(JSON.stringify(cdr(pcons))+"<br></br>");
+document.write(car(cdr(pcons))+"<br></br>");
+
+cons(cdr(pcons),"lambda");
+cons(cdr(cdr(pcons)),"(x)");
+cons(cdr(cdr(cdr(pcons))),"*");
+cons(cdr(cdr(cdr(cdr(pcons)))),"2");
+cons(cdr(cdr(cdr(cdr(cdr(pcons))))),"x");
+
+document.write(JSON.stringify(pcons)+"<br></br>");
+
+</script>
+</body>
+</html>

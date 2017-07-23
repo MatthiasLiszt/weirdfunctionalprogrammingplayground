@@ -1,0 +1,57 @@
+<html>
+<title> JSON scheme experiments</title>
+<body>
+<script>
+/*
+var code = {define: [{fac: 'x'},{if: [ { lt: ['x' , 2 ] } , 1 ,
+                                    {mul: ['x' , {fac: {min: ['x' , 1] }}]} ] }]};
+
+console.log(code);
+console.log(code.define[0]);
+console.log(code.define[1]);
+console.log(code.define[1].if[0]+code.define[1].if[1]+code.define[1].if[2]);
+console.log(code.define[1].if[2].mul[0]+code.define[1].if[2].mul[1]);
+*/
+
+var code = ["define",["fac","x"],["if",["<","x",2 ],1, 
+                ["*","x",["fac",["-","x",1]] ]  ]];
+
+function printCode(x){
+  var n=0;
+  function check(n){
+   if(x[n]!==undefined){document.write(x[n]);check(++n);}
+  }
+  check(n);
+}
+
+//printCode(code);
+
+function car(x){
+ if(x[0]!==undefined){return x[0];}
+}
+
+function cdr(x){
+ var n=1;
+ var o=[];
+ function check(n)
+  {if(x[n]!==undefined)
+    {
+     o.push(x[n]);
+     check(++n);
+    }
+   
+  }
+ check(n);
+ return o;
+}
+
+document.writeln(car(code)+"<br></br>");
+document.writeln(cdr(code)+"<br></br>");
+//document.writeln(car(cdr(code))+"<br></br>");
+//document.writeln(cdr(cdr(code))+"<br></br>");
+document.writeln(car(cdr(cdr(code)))+"<br></br>");
+</script>
+</body>
+</html>
+
+
